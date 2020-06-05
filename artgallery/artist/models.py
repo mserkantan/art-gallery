@@ -1,6 +1,8 @@
 import uuid
+import pandas as pd
 
 from django.db import models
+
 
 # Create your models here.
 class Artist(models.Model):
@@ -10,8 +12,9 @@ class Artist(models.Model):
     artist_birthdate = models.DateField(default="-")
     artist_deathdate = models.DateField(default="-")
     place_born = models.ForeignKey("place.Place", on_delete=models.CASCADE, related_name="place_born", default="1")
-    place_death = models.ForeignKey("place.Place", on_delete=models.CASCADE, related_name="place_death", default="1")
+    place_death = models.ForeignKey("place.Place", on_delete=models.CASCADE, related_name="place_death", default="1", null=True, blank=True)
 
+    
 
 class Artist_Image(models.Model):
     of_artist = models.ForeignKey("Artist", on_delete=models.CASCADE)
@@ -20,5 +23,4 @@ class Artist_Image(models.Model):
 class OfArtist(models.Model):
     art_movement = models.ForeignKey("art_movement.Art_Movement", on_delete=models.CASCADE, blank=True, null=True)
     artist = models.ForeignKey("Artist", on_delete=models.CASCADE, blank=True, null=True)
-
 

@@ -4,6 +4,8 @@ from django.contrib import admin
 from .models import Artifact, ArtifactImage, Painting, Sculpture, Photograph, OfObject
 
 admin.site.register(ArtifactImage)
+admin.site.register(Artifact)
+
 admin.site.register(OfObject)
 admin.site.register(Painting)
 admin.site.register(Sculpture)

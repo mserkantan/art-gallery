@@ -1,0 +1,342 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+.collapsible {
+  background-color: #777;
+  color: white;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+}
+.object-collapsible{
+  background-color: #333;
+  color: white;
+  cursor: pointer;
+  padding: 4px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+}
+
+.active, .collapsible:hover {
+  background-color: #555;
+}
+
+.content {
+  padding: 0 18px;
+  display: none;
+  overflow: hidden;
+  background-color: #f1f1f1;
+}
+
+.red {
+    background-color: red;
+}
+</style>
+</head>
+<body>
+<style>
+    input {
+    display: block;
+    }
+    select{
+        display: block;
+    }
+</style>
+<h2>Admin Panel</h2>
+
+
+
+<p>Possible Actions</p>
+<p> {{places}} </p>
+<p> {{museums}} </p>
+<p> {{artists}} </p>
+
+<button type="button" class="collapsible">Create</button>
+<div class="content">
+    
+  <button type="button" class="collapsible">create artist</button>
+  <div class="content">
+    <form action="{%url 'create' "artist"%}" method="POST" name="artifact"> artist
+        {% csrf_token %}
+        <input type="fname" name="name" maxlength="15" placeholder="name" required="">
+        <input type="lname" name="surname" maxlength="15" placeholder="surname" required="">
+        <input type="date" name="birthdate" placeholder="birthdate" required="">
+        <input type="date" name="deathdate" placeholder="deathdate" required="">
+        <select name="born" id="born" >
+            <option value="" disabled selected hidden>born place</option>
+            {% for place in places%}
+                <option value="{{place}}">{{place}}</option>
+            {% endfor %}            
+        </select>
+        <select name="death" id="death">
+            <option value="" disabled selected hidden>death place</option>
+            {% for place in places%}
+                <option value="{{place}}">{{place}}</option>
+            {% endfor %}
+
+        </select>
+        <label for="img">Select Artist Image:</label>
+        <input type="file" id="artist_image" name="artist_image" accept="image/*">
+        <button type="submit">save artist</button>
+
+      </form>
+    </div>
+  <button type="button" class="collapsible">create artifact</button>
+
+  <div class="content">
+      <form action="{%url 'create' "artifact"%}" method="POST" name="artifact"> artifact
+        {% csrf_token %}
+        <select name="artist" id="artist" >
+            <option value="" disabled selected hidden>artist</option>
+            {% for artist in artists%}
+                <option value="{{artist}}">{{artist}}</option>
+            {% endfor %}            
+        </select>
+        <select name="museum" id="museum">
+            <option value="" disabled selected hidden>museum</option>
+            {% for museum in museums%}
+                <option value="{{museum}}">{{museum}}</option>
+            {% endfor %}
+        </select>
+        <input type="fname" name="title" maxlength="30" placeholder="title" required="">
+        <input type="lname" name="ori_title" maxlength="30" placeholder="original title" required="">
+        <input type="text" name="description" placeholder="description" required="">
+        <input type="date" name="creation" placeholder="creation" required="">
+        <input type="file" id="artifact_image" name="artifact_image" accept="image/*">
+        <button type="submit">save artifact</button>
+
+      </form>
+  </div>
+  <button type="button" class="collapsible">create museum</button>
+
+  <div class="content">
+    <form action="{%url 'create' "museum"%}" method="POST" name="museum"> museum
+        {% csrf_token %}
+        <select name="place" id="place" >
+            <option value="" disabled selected hidden>place</option>
+            {% for place in places%}
+                <option value="{{place}}">{{place}}</option>
+            {% endfor %}            
+        </select>
+        <input type="fname" name="name" maxlength="30" placeholder="museum name" required="">
+        <input type="text" name="description" placeholder="description" required="">
+        <input type="date" name="foundation" placeholder="foundation" required="">
+        <input type="file" id="museum_image" name="museum_image" accept="image/*">
+        <button type="submit">save museum</button>
+
+      </form>
+  </div>
+
+  <button type="button" class="collapsible">create place</button>
+  <div class="content">
+    <form action="{%url 'create' "place"%}" method="POST" name="place"> place
+        {% csrf_token %}
+        <input type="fname" name="country" maxlength="30" placeholder="country name" required="">
+        <input type="text" name="city" placeholder="city name" required="">
+        <input type="number" name="zip" max="99999" min="0" placeholder="zip" required="">
+        <input type="text" name="description" placeholder="description" required="">
+        <button type="submit">save place</button>
+    </form>
+
+  </div>
+  <button type="button" class="collapsible">create art movement</button>
+  <div class="content">
+    <form action="{%url 'create' "artmovement"%}" method="POST" name="artmovement"> art movement
+        {% csrf_token %}
+        <input type="fname" name="name" maxlength="30" placeholder="artmovement name" required="">
+        <input type="text" name="description" placeholder="description" required="">
+        <input type="text" name="era" maxlength="30" min="0" placeholder="era" required="">
+        <input type="file" id="artmovement_image" name="image" accept="image/*">
+
+        <button type="submit">save art movement</button>
+    </form>
+
+  </div>
+
+
+  <form action="{% url 'admin_panel' %}">
+    <button type="submit"> add more</button>
+</form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+<button type="button" class="collapsible">Update</button>
+<div class="content">
+    
+    <button type="button" class="collapsible">update artist</button>
+
+        {% for artist in  artist_objects%}
+            <button type="button" class="object-collapsible">update {{artist.artist_name}} {{artist.artist_surname}} id: {{artist.artist_id}}</button>
+
+                <div class="content">
+                <form action="{%url 'update' "artist"%}" method="POST" name="artifact"> artist
+                    {% csrf_token %}
+                    <input type="fname" name="id" placeholder="id" required="" value="{{artist.artist_id}}">
+                    <input type="fname" name="name" maxlength="15" placeholder="name" required="" value="{{artist.artist_name}}">
+                    <input type="lname" name="surname" maxlength="15" placeholder="surname" required="" value="{{artist.artist_surname}}">
+                    <input type="date" name="birthdate" placeholder="birthdate" required="" value="{{artist.artist_birthdate|date:"Y-m-d"}}">
+                    <input type="date" name="deathdate" placeholder="deathdate" required="" value="{{artist.artist_deathdate|date:"Y-m-d"}}">
+                    <select name="born" id="born" >
+                        <option value="{{artist.place_born.place_city}}">{{artist.place_born.place_city}}</option>
+                        {% for place in places%}
+                            <option value="{{place}}">{{place}}</option>
+                        {% endfor %}            
+                    </select>
+                    <select name="death" id="death">
+                        <option value="{{artist.place_death.place_city}}" >{{artist.place_death.place_city}}</option>
+                        {% for place in places%}
+                            <option value="{{place}}">{{place}}</option>
+                        {% endfor %}
+                        <option value=""> </option>
+            
+                    </select>
+                    <label for="img">Select Artist Image:</label>
+                    <input type="file" id="artist_image" name="artist_image" accept="image/*">
+                    <button type="submit">save artist</button>
+                    </form>
+                    <form action="{%url 'update' "delete_artist"%}">
+                        <button class="red" "type="submit">delete</button>
+                    </form>
+                </div>
+        {% endfor %}
+
+
+
+    <button type="button" class="collapsible">update artifact</button>
+    {% for artifact in artifact_objects%}
+            <button type="button" class="object-collapsible">update {{artifact.artifact_name}} id: {{artist.artifact_id}}</button>
+                <div class="content">
+                    <form action="{%url 'create' "artifact"%}" method="POST" name="artifact"> artifact
+                    {% csrf_token %}
+                    <select name="artist" id="artist" >
+                        <option value="" disabled selected hidden>artist</option>
+                        {% for artist in artists%}
+                            <option value="{{artist}}">{{artist}}</option>
+                        {% endfor %}            
+                    </select>
+                    <select name="museum" id="museum">
+                        <option value="" disabled selected hidden>museum</option>
+                        {% for museum in museums%}
+                            <option value="{{museum}}">{{museum}}</option>
+                        {% endfor %}
+                    </select>
+                    <input type="fname" name="title" maxlength="30" placeholder="title" required="">
+                    <input type="lname" name="ori_title" maxlength="30" placeholder="original title" required="">
+                    <input type="text" name="description" placeholder="description" required="">
+                    <input type="date" name="creation" placeholder="creation" required="">
+                    <input type="file" id="artifact_image" name="artifact_image" accept="image/*">
+                    <button type="submit">save artifact</button>
+            
+                    </form>
+            
+                </div>
+
+    {% endfor %}
+
+    <button type="button" class="collapsible">update museum</button>
+    <div class="content">
+      <form action="{%url 'create' "museum"%}" method="POST" name="museum"> museum
+          {% csrf_token %}
+          <select name="place" id="place" >
+              <option value="" disabled selected hidden>place</option>
+              {% for place in places%}
+                  <option value="{{place}}">{{place}}</option>
+              {% endfor %}            
+          </select>
+          <input type="fname" name="name" maxlength="30" placeholder="museum name" required="">
+          <input type="text" name="description" placeholder="description" required="">
+          <input type="date" name="foundation" placeholder="foundation" required="">
+          <input type="file" id="museum_image" name="museum_image" accept="image/*">
+          <button type="submit">save museum</button>
+  
+        </form>
+    </div>
+    <button type="button" class="collapsible">update place</button>
+    <div class="content">
+      <form action="{%url 'create' "place"%}" method="POST" name="place"> place
+          {% csrf_token %}
+          <input type="fname" name="country" maxlength="30" placeholder="country name" required="">
+          <input type="text" name="city" placeholder="city name" required="">
+          <input type="number" name="zip" max="99999" min="0" placeholder="zip" required="">
+          <input type="text" name="description" placeholder="description" required="">
+          <button type="submit">save place</button>
+      </form>
+  
+    </div>
+  
+  
+    <form action="{% url 'admin_panel' %}">
+      <button type="submit"> add more</button>
+  </form>
+  
+
+  </div>
+<script>
+var coll = document.getElementsByClassName("collapsible");
+var i;
+
+for (i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var content = this.nextElementSibling;
+    if (content.style.display === "block") {
+      content.style.display = "none";
+    } else {
+      content.style.display = "block";
+    }
+  });
+
+
+}
+
+var coll1 = document.getElementsByClassName("object-collapsible");
+var j;
+
+for (j = 0; j < coll1.length; j++) {
+  coll1[j].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var content = this.nextElementSibling;
+    if (content.style.display === "block") {
+      content.style.display = "none";
+    } else {
+      content.style.display = "block";
+    }
+  });
+}
+
+</script>
+
+</body>
+</html>

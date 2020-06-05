@@ -1,0 +1,39 @@
+
+{% load static %}
+
+
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+        <title>Creative Colorlib SignUp Form</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+        <!-- Custom Theme files -->
+        <link rel="stylesheet" href="{% static 'user/css/style_login.css' %}" media="all" />
+
+        <!-- //Custom Theme files -->
+        <!-- web font -->
+        <link href="//fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i" rel="stylesheet" >
+        <!-- //web font -->
+    </head>
+
+
+    <body style="background:url('{% static 'user/logo/home.png' %}'); font-family: 'Roboto', sans-serif">
+        <div class="login-page">
+            <div class="form">
+                    <form class="login-form" style:"background-color:#072866" action="{% url 'auth' %}" method="post">
+                    {% csrf_token %}
+                    <input type="text" name="username" placeholder="username" required="">
+                    <input type="password" name="password" placeholder="password" required="">
+                    <button type="submit">login</button>
+                    <p class="message">Not registered? <a href= {% url 'sign_up' %}>Create an account</a></p>
+                </form>
+            </div>
+        </div>
+
+    </body>
+
+</html>

@@ -8,4 +8,6 @@ class Art_Movement(models.Model):
     movement_name = models.CharField(max_length=40)
     movement_description = models.TextField()
     movement_era = models.CharField(max_length=100, null=True)
+    movement_picture = models.ImageField(blank=True, null=True)
+
     
